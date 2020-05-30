@@ -34,8 +34,9 @@ def duplicate_source(submission, uzuki=False):
     comments = submission.comments.list()
     for comment in comments:
         match = re.search(r"https?://", comment.body, re.IGNORECASE)
-        if uzuki and match and comment.author.name == "uzukibot":
-            return True
+        if uzuki and match and comment.author:
+            if comment.author.name == "uzukibot":
+                return True
         elif not uzuki and match:
             return True
     return False
