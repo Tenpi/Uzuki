@@ -23,7 +23,7 @@ def get_source(link):
         match = re.search(r"\d+", url)
         if match:
             url = f"https://www.pixiv.net/en/artworks/{match.group()}"
-    return f"Title: {results[0].title} Artist: {results[0].author}\n\nSource: {url}" if len(results) else "Sorry, could not find the source of this drawing!"
+    return f"Title: {results[0].title} Artist: {results[0].author} Similarity: {results[0].similarity}\n\nSource: {url}" if len(results) else "Sorry, could not find the source of this drawing!"
 
 def duplicate_source(submission, uzuki=False):
     """Checks if a comment already has a source."""
