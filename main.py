@@ -51,10 +51,12 @@ async def reply(submission, mention=False):
         mention.reply(source)
     else:
         submission.reply(source)
+    return
 
 async def automatic_reply():
     """Automatically replies with the source in my subreddits."""
     while True:
+        print("here")
         subreddit = reddit.subreddit("AnimeGirlsInLeggings+KawaiiAnimeGirls+WeebsHideout")
         for submission in subreddit.stream.submissions():
             if not duplicate_source(submission):
@@ -64,6 +66,7 @@ async def automatic_reply():
 async def mention_reply():
     """Replies with the post source when mentioned."""
     while True:
+        print("here2")
         for mention in reddit.inbox.mentions(limit=25):
             submission = mention.submission
             if not duplicate_source(submission, True):
