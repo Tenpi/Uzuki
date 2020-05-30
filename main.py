@@ -1,7 +1,6 @@
 import os
 import re
 import asyncio
-import time
 import praw
 from saucenao_api import SauceNao
 from dotenv import load_dotenv
@@ -41,12 +40,12 @@ def duplicate_source(submission, uzuki=False):
             return True
     return False
 
-def reply(submission, mention=False):
+async def reply(submission, mention=False):
     """Replies on a submission with the source."""
     try:
         source = get_source(submission.url)
     except:
-        time.sleep(30)
+        await asyncio.sleep(30)
         source = get_source(submission.url)
     if mention:
         mention.reply(source)
@@ -57,21 +56,23 @@ def reply(submission, mention=False):
 async def automatic_reply():
     """Automatically replies with the source in my subreddits."""
     while True:
-        print("here2")
+        print("here")
         subreddit = reddit.subreddit("AnimeGirlsInLeggings+KawaiiAnimeGirls+WeebsHideout")
-        for submission in subreddit.stream.submissions():
+        for submission in subreddit.new():
             if not duplicate_source(submission):
-                reply(submission)
+                await reply(submission)
+        print("before timeout")
         await asyncio.sleep(60)
 
 async def mention_reply():
     """Replies with the post source when mentioned."""
     while True:
-        print("here")
+        print("here2")
         for mention in reddit.inbox.mentions(limit=25):
             submission = mention.submission
             if not duplicate_source(submission, True):
-                reply(submission, mention)
+                await reply(submission, mention)
+        print("before timeout2")
         await asyncio.sleep(60)
 
 if __name__ == "__main__":
