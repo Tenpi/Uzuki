@@ -60,7 +60,7 @@ async def automatic_reply():
         for submission in subreddit.stream.submissions():
             if not duplicate_source(submission):
                 await reply(submission)
-        await asyncio.sleep(120)
+        await asyncio.sleep(60)
 
 async def mention_reply():
     """Replies with the post source when mentioned."""
@@ -70,7 +70,7 @@ async def mention_reply():
             submission = mention.submission
             if not duplicate_source(submission, True):
                 await reply(submission, mention)
-        await asyncio.sleep(120)
+        await asyncio.sleep(60)
 
 if __name__ == "__main__":
     loop = asyncio.get_event_loop()
