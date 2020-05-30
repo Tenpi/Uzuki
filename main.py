@@ -56,23 +56,19 @@ async def reply(submission, mention=False):
 async def automatic_reply():
     """Automatically replies with the source in my subreddits."""
     while True:
-        print("here")
         subreddit = reddit.subreddit("AnimeGirlsInLeggings+KawaiiAnimeGirls+WeebsHideout")
         for submission in subreddit.new(limit=25):
             if not duplicate_source(submission):
                 await reply(submission)
-        print("before timeout")
         await asyncio.sleep(60)
 
 async def mention_reply():
     """Replies with the post source when mentioned."""
     while True:
-        print("here2")
         for mention in reddit.inbox.mentions(limit=25):
             submission = mention.submission
             if not duplicate_source(submission, True):
                 await reply(submission, mention)
-        print("before timeout2")
         await asyncio.sleep(60)
 
 if __name__ == "__main__":
