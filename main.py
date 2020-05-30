@@ -58,7 +58,7 @@ async def automatic_reply():
     while True:
         print("here")
         subreddit = reddit.subreddit("AnimeGirlsInLeggings+KawaiiAnimeGirls+WeebsHideout")
-        for submission in subreddit.new():
+        for submission in subreddit.new(limit=25):
             if not duplicate_source(submission):
                 await reply(submission)
         print("before timeout")
