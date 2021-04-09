@@ -65,16 +65,16 @@ async def automatic_reply():
         for submission in subreddit.new(limit=200):
             if not duplicate_source(submission):
                 await reply(submission)
-        await asyncio.sleep(60)
+        await asyncio.sleep(10)
 
 async def mention_reply():
     """Replies with the post source when mentioned."""
     while True:
-        for mention in reddit.inbox.mentions(limit=25):
+        for mention in reddit.inbox.mentions(limit=100):
             submission = mention.submission
             if not duplicate_source(submission, True):
                 await reply(submission, mention)
-        await asyncio.sleep(60)
+        await asyncio.sleep(10)
 
 if __name__ == "__main__":
     loop = asyncio.get_event_loop()
