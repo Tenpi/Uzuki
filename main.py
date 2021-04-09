@@ -38,10 +38,11 @@ def duplicate_source(submission, uzuki=False):
     comments = submission.comments.list()
     for comment in comments:
         match = re.search(r"https?://", comment.body, re.IGNORECASE)
-        if uzuki and match and comment.author:
+        match2 = re.search(r"Sorry, could not find the source of this drawing!", comment.body, re.IGNORECASE)
+        if uzuki and match or match2 and comment.author:
             if comment.author.name == "uzukibot":
                 return True
-        elif not uzuki and match:
+        elif not uzuki and match or match2:
             return True
     return False
 
