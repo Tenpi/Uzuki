@@ -18,12 +18,12 @@ def get_source(link):
     """Gets an image source from the Saucenao API."""
     sauce = SauceNao(api_key=saucenao_key)
     results = sauce.from_url(link) 
-    if len(results):
-        url = results[0].url
+    url = results[0].url
+    if url:
         if "pixiv" in url:
             match = re.search(r"\d+", url)
-        if match:
-            url = f"https://www.pixiv.net/en/artworks/{match.group()}"
+            if match:
+                url = f"https://www.pixiv.net/en/artworks/{match.group()}"
         return f"Title: {results[0].title} Artist: {results[0].author} Similarity: {results[0].similarity}\n\nSource: {url}"
     else:
         return "Sorry, could not find the source of this drawing!"
