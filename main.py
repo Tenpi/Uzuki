@@ -17,13 +17,17 @@ reddit = praw.Reddit(client_id=client_id, client_secret=client_secret, refresh_t
 def get_source(link):
     """Gets an image source from the Saucenao API."""
     sauce = SauceNao(api_key=saucenao_key)
-    results = sauce.from_url(link)
-    url = results[0].url 
-    if "pixiv" in url:
-        match = re.search(r"\d+", url)
+    results = sauce.from_url(link) 
+    if len(results):
+        url = results[0].url
+        if "pixiv" in url:
+            match = re.search(r"\d+", url)
         if match:
             url = f"https://www.pixiv.net/en/artworks/{match.group()}"
-    return f"Title: {results[0].title} Artist: {results[0].author} Similarity: {results[0].similarity}\n\nSource: {url}" if len(results) else "Sorry, could not find the source of this drawing!"
+        return f"Title: {results[0].title} Artist: {results[0].author} Similarity: {results[0].similarity}\n\nSource: {url}"
+    else:
+        return "Sorry, could not find the source of this drawing!"
+    
 
 def duplicate_source(submission, uzuki=False):
     """Checks if a comment already has a source."""
@@ -58,7 +62,7 @@ async def automatic_reply():
     """Automatically replies with the source in my subreddits."""
     while True:
         subreddit = reddit.subreddit("AnimeGirlsInLeggings+KawaiiAnimeGirls+WeebsHideout")
-        for submission in subreddit.new(limit=25):
+        for submission in subreddit.new(limit=200):
             if not duplicate_source(submission):
                 await reply(submission)
         await asyncio.sleep(60)
