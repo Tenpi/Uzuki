@@ -10,7 +10,7 @@ client_id = os.getenv("REDDIT_CLIENT_ID")
 client_secret = os.getenv("REDDIT_CLIENT_SECRET")
 refresh_token = os.getenv("REDDIT_REFRESH_TOKEN")
 saucenao_key = os.getenv("SAUCENAO_API_KEY")
-user_agent = "Uzuki Bot v1.0 by u/imtenpi"
+user_agent = "Uzuki Bot v1.0"
 
 reddit = praw.Reddit(client_id=client_id, client_secret=client_secret, refresh_token=refresh_token, user_agent=user_agent)
 
@@ -62,7 +62,7 @@ async def reply(submission, mention=False):
 async def automatic_reply():
     """Automatically replies with the source in my subreddits."""
     while True:
-        subreddit = reddit.subreddit("AnimeGirlsInLeggings+KawaiiAnimeGirls+WeebsHideout")
+        subreddit = reddit.subreddit("KawaiiAnimeGirls")
         for submission in subreddit.new(limit=200):
             if not duplicate_source(submission):
                 await reply(submission)
